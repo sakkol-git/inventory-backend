@@ -12,6 +12,7 @@
         "laravel/reverb": "^1.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
+        "league/flysystem-aws-s3-v3": "3.0",
         "php-open-source-saver/jwt-auth": "^2.9",
         "spatie/laravel-activitylog": "^5.0",
         "spatie/laravel-backup": "^10.2",
