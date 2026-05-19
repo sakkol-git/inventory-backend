@@ -32,8 +32,6 @@ class BorrowRecordResource extends JsonResource
 
         return [
             'id' => $record->id,
-            'borrowable_type' => $record->borrowable_type,
-            'borrowable_id' => $record->borrowable_id,
             'status' => $record->status?->value,
             'quantity' => $record->quantity,
             'borrowed_at' => $record->borrowed_at?->toIso8601String(),
@@ -58,6 +56,11 @@ class BorrowRecordResource extends JsonResource
                 : null,
 
             // Relationships (only included when eager-loaded)
+            'item' => [
+                'type' => $record->borrowable_type,
+                'id' => $record->borrowable_id,
+                'data' => $this->whenLoaded('borrowable'),
+            ],
             'borrowable' => $this->resolveBorrowableResource(),
             'borrower' => UserResource::make($this->whenLoaded('user')),
             'reviewer' => UserResource::make($this->whenLoaded('reviewer')),
