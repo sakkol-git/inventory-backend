@@ -9,13 +9,22 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserDocumentResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'user_id' => $this->user_id,
+            'title' => $this->title,
+            'file_path' => $this->file_path,
+            'file_type' => $this->file_type,
+            'file_size' => $this->file_size,
+            'description' => $this->description,
+            'user' => [
+                'id' => $this->whenLoaded('user', fn () => $this->user->id),
+                'name' => $this->whenLoaded('user', fn () => $this->user->name),
+            ],
+            'created_at' => $this->created_at?->toIso8601String(),
+            'updated_at' => $this->updated_at?->toIso8601String(),
+        ];
     }
 }

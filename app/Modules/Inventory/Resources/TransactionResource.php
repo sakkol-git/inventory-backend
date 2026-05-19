@@ -9,13 +9,23 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class TransactionResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'action' => $this->action?->value,
+            'quantity' => $this->quantity,
+            'note' => $this->note,
+            'user' => [
+                'id' => $this->whenLoaded('user', fn () => $this->user->id),
+                'name' => $this->whenLoaded('user', fn () => $this->user->name),
+            ],
+            'item' => [
+                'type' => $this->transactionable_type,
+                'id' => $this->transactionable_id,
+                'data' => $this->whenLoaded('transactionable'),
+            ],
+            'created_at' => $this->created_at?->toIso8601String(),
+        ];
     }
 }
