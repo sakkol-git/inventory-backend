@@ -41,6 +41,11 @@ class UserSeeder extends Seeder
             'achievements.edit',
             'achievements.delete',
 
+            'documents.view',
+            'documents.create',
+            'documents.edit',
+            'documents.delete',
+
             'transactions.view',
             'reports.view',
 
