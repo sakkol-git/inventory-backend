@@ -43,10 +43,7 @@ class PlantVariety extends Model
         return $this->hasMany(PlantSample::class, 'plant_variety_id');
     }
 
-    public function plantStocks(): HasMany
-    {
-        return $this->hasMany(PlantStock::class, 'plant_variety_id');
-    }
+
 
     // ─── Custom Methods ─────────────────────────────────────────────────────
     #[Scope]

@@ -29,6 +29,7 @@ class PlantSample extends Model
     // fillable fields
     protected $fillable = [
         'plant_variety_id',
+        'user_id',
         'contributor_id',
         'sample_name',
         'sample_code',
