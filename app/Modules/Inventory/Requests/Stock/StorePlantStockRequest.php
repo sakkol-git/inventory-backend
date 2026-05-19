@@ -21,7 +21,8 @@ class StorePlantStockRequest extends FormRequest
     {
         return [
             // Relationships
-            'plant_sample_id' => ['nullable', 'integer', 'exists:plant_samples,id'],
+            // New logic: a stock must belong to a plant sample. Require the sample id.
+            'plant_sample_id' => ['required', 'integer', 'exists:plant_samples,id'],
 
             // Numbers (Unsigned means min:0)
             'quantity' => ['required', 'integer', 'min:0'],

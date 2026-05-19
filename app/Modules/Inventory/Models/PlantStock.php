@@ -17,8 +17,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property int $id
- * @property int $plant_species_id
- * @property int|null $plant_variety_id
  * @property int|null $plant_sample_id
  * @property int $quantity
  * @property int $reserved_quantity

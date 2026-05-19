@@ -20,8 +20,6 @@ class UpdatePlantStockRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'plant_species_id' => ['sometimes', 'integer', 'exists:plant_species,id'],
-            'plant_variety_id' => ['nullable', 'integer', 'exists:plant_varieties,id'],
             'plant_sample_id' => ['nullable', 'integer', 'exists:plant_samples,id'],
             'quantity' => ['sometimes', 'integer', 'min:0'],
             // lte:quantity validates against the incoming payload value when both are present.

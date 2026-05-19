@@ -47,7 +47,7 @@ class PlantStockController extends Controller
             user: auth('api')->user(),
         );
 
-        $stock->load(['species', 'variety', 'sample']);
+        $stock->load('sample');
 
         return (new PlantStockResource($stock))
             ->response()
@@ -58,7 +58,7 @@ class PlantStockController extends Controller
     {
         $this->authorize('view', $plantStock);
 
-        $plantStock->load(['species', 'variety', 'sample']);
+        $plantStock->load('sample');
 
         return new PlantStockResource($plantStock);
     }
@@ -85,7 +85,7 @@ class PlantStockController extends Controller
             user: auth('api')->user(),
         );
 
-        $plantStock->load(['species', 'variety', 'sample']);
+        $plantStock->load('sample');
 
         return new PlantStockResource($plantStock);
     }
