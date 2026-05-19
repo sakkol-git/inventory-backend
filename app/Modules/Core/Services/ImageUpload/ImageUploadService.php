@@ -95,8 +95,10 @@ class ImageUploadService
     public static function resolveImageUrl(?string $imagePath, ?string $imageUrl): ?string
     {
         if ($imagePath) {
+            $diskName = env('IMAGE_STORAGE_DISK', config('filesystems.default'));
+
             /** @var \Illuminate\Filesystem\FilesystemAdapter $disk */
-            $disk = Storage::disk(self::DISK);
+            $disk = Storage::disk($diskName);
 
             return $disk->url($imagePath);
         }

@@ -11,13 +11,23 @@ use Illuminate\Support\Str;
 
 class ImageStorageService
 {
-    private const DISK = 'public';
+    private string $disk;
+
+    public function __construct()
+    {
+        $this->disk = env('IMAGE_STORAGE_DISK', config('filesystems.default'));
+    }
 
     public function storeFile(UploadedFile $file, string $folder): string
     {
         $name = Str::ulid().'.'.$file->getClientOriginalExtension();
 
-        return $file->storeAs("images/{$folder}", $name, self::DISK);
+        /** @var \Illuminate\Filesystem\FilesystemAdapter $disk */
+        $disk = Storage::disk($this->disk);
+
+        $disk->putFileAs("images/{$folder}", $file, $name, ['visibility' => 'public']);
+
+        return "images/{$folder}/{$name}";
     }
 
     public function deleteModelImagePath(?Model $existing): void
@@ -35,7 +45,8 @@ class ImageStorageService
             return;
         }
 
-        $disk = Storage::disk(self::DISK);
+        /** @var \Illuminate\Filesystem\FilesystemAdapter $disk */
+        $disk = Storage::disk($this->disk);
 
         if ($disk->exists($path)) {
             $disk->delete($path);
@@ -49,7 +60,7 @@ class ImageStorageService
         }
 
         /** @var \Illuminate\Filesystem\FilesystemAdapter $disk */
-        $disk = Storage::disk(self::DISK);
+        $disk = Storage::disk($this->disk);
 
         return $disk->url($path);
     }
