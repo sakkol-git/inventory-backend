@@ -6,23 +6,29 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::table('plant_species', function (Blueprint $table) {
-            //
+            $table->enum('growth_type', [
+                'herb',
+                'shrub',
+                'tree',
+                'vine',
+                'grass',
+                'aquatic',
+                'other',
+            ])->nullable()->change();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('plant_species', function (Blueprint $table) {
-            //
+            $table->enum('growth_type', [
+                'annual',
+                'perennial',
+                'biennial',
+            ])->nullable()->change();
         });
     }
 };
