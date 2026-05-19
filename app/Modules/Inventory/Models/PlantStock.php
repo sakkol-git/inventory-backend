@@ -34,8 +34,6 @@ class PlantStock extends Model
 
     // Mass assignable attributes
     protected $fillable = [
-        'plant_species_id',
-        'plant_variety_id',
         'plant_sample_id',
         'quantity',
         'reserved_quantity',
@@ -64,16 +62,6 @@ class PlantStock extends Model
     }
 
     // ─── Relationships ───────────────────────────────────────────────────────
-
-    public function species(): BelongsTo
-    {
-        return $this->belongsTo(PlantSpecies::class, 'plant_species_id');
-    }
-
-    public function variety(): BelongsTo
-    {
-        return $this->belongsTo(PlantVariety::class, 'plant_variety_id');
-    }
 
     public function sample(): BelongsTo
     {
