@@ -36,7 +36,7 @@ class RoleController extends Controller
         return response()->json(['data' => $this->roleService->roleArray($role)], 201);
     }
 
-    public function show($id): JsonResponse
+    public function show(int $id): JsonResponse
     {
         Gate::authorize('manage-roles');
 
@@ -45,7 +45,7 @@ class RoleController extends Controller
         return response()->json(['data' => $this->roleService->roleArray($role)]);
     }
 
-    public function update(UpdateRoleRequest $request, $id): JsonResponse
+    public function update(UpdateRoleRequest $request, int $id): JsonResponse
     {
         Gate::authorize('manage-roles');
 
@@ -54,7 +54,7 @@ class RoleController extends Controller
         return response()->json(['data' => $this->roleService->roleArray($role)]);
     }
 
-    public function destroy($id): JsonResponse
+    public function destroy(int $id): JsonResponse
     {
         Gate::authorize('manage-roles');
 
@@ -65,14 +65,14 @@ class RoleController extends Controller
 
     // ─── Role ↔ Permissions ──────────────────────────────────────────────────
 
-    public function permissions($id): JsonResponse
+    public function permissions(int $id): JsonResponse
     {
         Gate::authorize('manage-roles');
 
         return response()->json(['data' => $this->roleService->getPermissions($id)]);
     }
 
-    public function assignPermission(Request $request, $id): JsonResponse
+    public function assignPermission(Request $request, int $id): JsonResponse
     {
         Gate::authorize('manage-roles');
 
@@ -83,7 +83,7 @@ class RoleController extends Controller
         return response()->json(['message' => "Permission '{$result['permission']}' assigned to role '{$result['role']}'"]);
     }
 
-    public function revokePermission($id, $permission): JsonResponse
+    public function revokePermission(int $id, string $permission): JsonResponse
     {
         Gate::authorize('manage-roles');
 
@@ -94,14 +94,14 @@ class RoleController extends Controller
 
     // ─── Role ↔ Users ────────────────────────────────────────────────────────
 
-    public function users($id): JsonResponse
+    public function users(int $id): JsonResponse
     {
         Gate::authorize('manage-roles');
 
         return response()->json(['data' => $this->roleService->getUsers($id)]);
     }
 
-    public function assignToUser(Request $request, $id): JsonResponse
+    public function assignToUser(Request $request, int $id): JsonResponse
     {
         Gate::authorize('manage-roles');
 
@@ -112,7 +112,7 @@ class RoleController extends Controller
         return response()->json(['message' => "Role '{$result['role']}' assigned to user '{$result['user']}'"]);
     }
 
-    public function revokeFromUser($id, $userId): JsonResponse
+    public function revokeFromUser(int $id, int $userId): JsonResponse
     {
         Gate::authorize('manage-roles');
 

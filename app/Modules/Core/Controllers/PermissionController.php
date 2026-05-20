@@ -36,7 +36,7 @@ class PermissionController extends Controller
         return response()->json(['data' => ['id' => $permission->id, 'name' => $permission->name, 'guard_name' => $permission->guard_name, 'created_at' => $permission->created_at]], 201);
     }
 
-    public function show($id): JsonResponse
+    public function show(int $id): JsonResponse
     {
         Gate::authorize('manage-roles');
 
@@ -45,7 +45,7 @@ class PermissionController extends Controller
         return response()->json(['data' => ['id' => $permission->id, 'name' => $permission->name, 'guard_name' => $permission->guard_name, 'created_at' => $permission->created_at]]);
     }
 
-    public function update(UpdatePermissionRequest $request, $id): JsonResponse
+    public function update(UpdatePermissionRequest $request, int $id): JsonResponse
     {
         Gate::authorize('manage-roles');
 
@@ -57,7 +57,7 @@ class PermissionController extends Controller
         return response()->json(['data' => ['id' => $permission->id, 'name' => $permission->name, 'guard_name' => $permission->guard_name]]);
     }
 
-    public function destroy($id): JsonResponse
+    public function destroy(int $id): JsonResponse
     {
         Gate::authorize('manage-roles');
 
