@@ -36,6 +36,12 @@ class UserSeeder extends Seeder
             'equipment.edit',
             'equipment.delete',
 
+            'borrow.view',
+            'borrow.create',
+            'borrow.approve',
+            'borrow.reject',
+            'borrow.return',
+
             'achievements.view',
             'achievements.create',
             'achievements.edit',
@@ -92,14 +98,22 @@ class UserSeeder extends Seeder
         $labManagerPermissions = array_filter(
             $permissions,
             fn ($permission) => str_contains($permission, '.create') ||
-                str_contains($permission, '.edit')
+                str_contains($permission, '.edit') ||
+                str_contains($permission, 'borrow.create') ||
+                str_contains($permission, 'borrow.approve') ||
+                str_contains($permission, 'borrow.reject') ||
+                str_contains($permission, 'borrow.return') ||
+                str_contains($permission, 'documents.download')
         );
 
         $labManagerRole->syncPermissions($labManagerPermissions);
 
         $studentPermissions = array_filter(
             $permissions,
-            fn ($permission) => str_contains($permission, '.view')
+            fn ($permission) => str_contains($permission, '.view') ||
+                str_contains($permission, 'borrow.create') ||
+                str_contains($permission, 'borrow.return') ||
+                str_contains($permission, 'documents.download')
         );
 
         $studentRole->syncPermissions($studentPermissions);
@@ -121,42 +135,7 @@ class UserSeeder extends Seeder
 
         $admin->syncRoles([$adminRole]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | Optional Demo Users
-        |--------------------------------------------------------------------------
-        */
-
-        if (app()->environment(['local', 'development'])) {
-
-            for ($i = 1; $i <= 3; $i++) {
-
-                $manager = User::updateOrCreate(
-                    ['email' => "labmanager{$i}@example.com"],
-                    [
-                        'name' => "Lab Manager {$i}",
-                        'role' => 'lab_manager',
-                        'password' => Hash::make('LabManager@123'),
-                    ]
-                );
-
-                $manager->syncRoles([$labManagerRole]);
-            }
-
-            for ($i = 1; $i <= 10; $i++) {
-
-                $student = User::updateOrCreate(
-                    ['email' => "student{$i}@example.com"],
-                    [
-                        'name' => "Student {$i}",
-                        'role' => 'student',
-                        'password' => Hash::make('Student@123'),
-                    ]
-                );
-
-                $student->syncRoles([$studentRole]);
-            }
-        }
+       
 
         resolve(PermissionRegistrar::class)->forgetCachedPermissions();
     }
