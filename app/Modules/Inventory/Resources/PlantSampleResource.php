@@ -26,6 +26,9 @@ class PlantSampleResource extends JsonResource
         return [
             'id' => $sample->id,
 
+            'plant_variety_id' => $sample->plant_variety_id,
+            'user_id' => $sample->user_id,
+
             'identity' => [
                 'name' => $sample->sample_name,
                 'code' => $sample->sample_code,
@@ -41,7 +44,7 @@ class PlantSampleResource extends JsonResource
             ],
 
             'details' => [
-                'owner' => $sample->owner_name,
+                'owner' => data_get($sample->relationLoaded('contributor') ? $sample->getRelation('contributor') : null, 'name'),
                 'department' => $sample->department,
                 'origin' => $sample->origin_location,
                 'quantity' => $sample->stock_quantity,

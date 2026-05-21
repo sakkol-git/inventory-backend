@@ -23,6 +23,27 @@ class UpdatePlantSampleRequest extends FormRequest
         return true; // Authorization is handled in the controller via policies
     }
 
+    protected function prepareForValidation(): void
+    {
+        $relationships = (array) $this->input('relationships', []);
+
+        if (! $this->has('plant_variety_id')) {
+            $plantVarietyId = data_get($relationships, 'variety.id');
+
+            if ($plantVarietyId !== null) {
+                $this->merge(['plant_variety_id' => $plantVarietyId]);
+            }
+        }
+
+        if (! $this->has('user_id')) {
+            $userId = data_get($relationships, 'contributor.id');
+
+            if ($userId !== null) {
+                $this->merge(['user_id' => $userId]);
+            }
+        }
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
