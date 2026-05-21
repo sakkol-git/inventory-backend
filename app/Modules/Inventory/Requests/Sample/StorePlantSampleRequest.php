@@ -50,7 +50,6 @@ class StorePlantSampleRequest extends FormRequest
             'brought_at' => ['nullable', 'date'],
             'lab_location' => ['nullable', Rule::enum(LabLocation::class)],
             'status' => ['required', Rule::enum(SampleStatus::class)],
-            'quantity' => ['required', 'integer', 'min:0'],
 
             // Meta
             'description' => ['nullable', 'string'],

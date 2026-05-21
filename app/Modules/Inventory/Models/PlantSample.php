@@ -33,7 +33,7 @@ class PlantSample extends Model
         'contributor_id',
         'sample_name',
         'sample_code',
-        'owner_name',
+        'user_id',
         'department',
         'origin_location',
         'brought_at',
@@ -42,7 +42,6 @@ class PlantSample extends Model
         'description',
         'image_url',
         'image_path',
-        'quantity',
     ];
 
     // casts
@@ -78,7 +77,7 @@ class PlantSample extends Model
 
     public function contributor(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'contributor_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function stocks(): HasMany
