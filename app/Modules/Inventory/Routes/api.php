@@ -37,12 +37,12 @@ Route::middleware('auth:api')->group(function () {
     // ─── Chemical Module ─────────────────────────────────────────────────────
     Route::apiResource('chemicals', ChemicalController::class);
     Route::prefix('chemical-usage-logs')->name('chemical-usage-logs.')->group(function () {
-    Route::post('use', [ChemicalUsageController::class, 'useChemical'])->name('use');
-    Route::post('add', [ChemicalUsageController::class, 'addChemical'])->name('add');
+        Route::post('use', [ChemicalUsageController::class, 'useChemical'])->name('use');
+        Route::post('add', [ChemicalUsageController::class, 'addChemical'])->name('add');
 
-    Route::apiResource('/', ChemicalUsageController::class)
-        ->only(['index', 'show'])
-        ->parameters(['' => 'chemicalUsageLog']);
+        Route::apiResource('/', ChemicalUsageController::class)
+            ->only(['index', 'show'])
+            ->parameters(['' => 'chemicalUsageLog']);
     });
 
     // ─── Equipment Module ────────────────────────────────────────────────────

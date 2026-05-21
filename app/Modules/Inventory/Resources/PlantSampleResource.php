@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Modules\Inventory\Resources;
 
+use App\Modules\Core\Resources\UserResource;
 use App\Modules\Core\Services\ImageUpload\ImageUploadService;
 use App\Modules\Inventory\Models\PlantSample;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Modules\Core\Resources\UserResource;
 
 /**
  * @mixin PlantSample
