@@ -10,6 +10,7 @@ use App\Modules\Inventory\Models\UserDocument;
 use App\Modules\Inventory\Requests\UserDocument\StoreUserDocumentRequest;
 use App\Modules\Inventory\Resources\UserDocumentResource;
 use App\Modules\Inventory\Services\UserDocumentService;
+use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -91,7 +92,7 @@ class UserDocumentController extends Controller
     {
         $this->authorize('download', $userDocument);
 
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $disk */
+        /** @var FilesystemAdapter $disk */
         $disk = Storage::disk('private');
         $stream = $disk->readStream($userDocument->file_path);
         abort_unless(is_resource($stream), 404, 'File not found.');

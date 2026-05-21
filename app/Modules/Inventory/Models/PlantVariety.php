@@ -43,8 +43,6 @@ class PlantVariety extends Model
         return $this->hasMany(PlantSample::class, 'plant_variety_id');
     }
 
-
-
     // ─── Custom Methods ─────────────────────────────────────────────────────
     #[Scope]
     protected function search(Builder $query, ?string $term): void

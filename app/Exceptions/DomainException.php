@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Exceptions;
 
 use Exception;
-use Throwable;
 
 /**
  * Base exception for all domain-specific business logic errors.

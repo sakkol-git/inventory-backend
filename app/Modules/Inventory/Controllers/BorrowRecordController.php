@@ -56,11 +56,7 @@ class BorrowRecordController extends Controller
 
     public function pending(Request $request): AnonymousResourceCollection
     {
-        $user = $request->user('api');
-
-        if (! $this->canManageBorrows($user)) {
-            abort(403, 'Forbidden.');
-        }
+        $request->user('api');
 
         $this->authorize('viewAny', BorrowRecord::class);
         $request->merge(['pending_only' => true]);
@@ -86,11 +82,7 @@ class BorrowRecordController extends Controller
 
     public function overdue(Request $request): AnonymousResourceCollection
     {
-        $user = $request->user('api');
-
-        if (! $this->canManageBorrows($user)) {
-            abort(403, 'Forbidden.');
-        }
+        $request->user('api');
 
         $this->authorize('viewAny', BorrowRecord::class);
         $request->merge(['overdue_only' => true]);
@@ -191,7 +183,7 @@ class BorrowRecordController extends Controller
 
     private function canViewAll(?User $user): bool
     {
-        if (!$user instanceof \App\Modules\Core\Models\User) {
+        if (! $user instanceof User) {
             return false;
         }
 
@@ -201,7 +193,7 @@ class BorrowRecordController extends Controller
 
     private function canManageBorrows(?User $user): bool
     {
-        if (!$user instanceof \App\Modules\Core\Models\User) {
+        if (! $user instanceof User) {
             return false;
         }
 

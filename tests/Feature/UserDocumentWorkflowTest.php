@@ -11,8 +11,8 @@ use App\Modules\Inventory\Services\UserDocumentService;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class UserDocumentWorkflowTest extends TestCase
@@ -53,7 +53,7 @@ class UserDocumentWorkflowTest extends TestCase
         Storage::fake('private');
 
         $user = User::factory()->create();
-        $service = app(UserDocumentService::class);
+        $service = resolve(UserDocumentService::class);
         $file = UploadedFile::fake()->createWithContent('policy.pdf', "%PDF-1.4\n%\xE2\xE3\xCF\xD3\n1 0 obj\n<<>>\nendobj\ntrailer\n<<>>\n%%EOF");
 
         $document = $service->create($file, [
@@ -88,7 +88,7 @@ class UserDocumentWorkflowTest extends TestCase
             'description' => null,
         ]);
 
-        app(UserDocumentService::class)->delete($document);
+        resolve(UserDocumentService::class)->delete($document);
 
         $this->assertFalse(Storage::disk('private')->exists('documents/test.pdf'));
         $this->assertSoftDeleted('user_documents', [
@@ -115,7 +115,7 @@ class UserDocumentWorkflowTest extends TestCase
         $document->setRelation('user', $user);
 
         $resource = new UserDocumentResource($document);
-        $data = $resource->toArray(new HttpRequest());
+        $data = $resource->toArray(new HttpRequest);
 
         $this->assertArrayNotHasKey('file_path', $data);
         $this->assertArrayHasKey('download_url', $data);

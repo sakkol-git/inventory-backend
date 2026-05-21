@@ -51,11 +51,30 @@ class ChemicalUsageController extends Controller
     /**
      * POST /api/chemical-usage-logs
      */
-    public function store(StoreChemicalUsageLogRequest $request): JsonResponse
+    public function useChemical(StoreChemicalUsageLogRequest $request): JsonResponse
     {
         $this->authorize('create', ChemicalUsageLog::class);
 
-        $log = $this->chemicalUsageService->create(
+        $log = $this->chemicalUsageService->use(
+            data: $request->validated(),
+            user: $request->user(),
+        );
+
+        $log->load(['chemical', 'user']);
+
+        return (new ChemicalUsageLogResource($log))
+            ->response()
+            ->setStatusCode(201);
+    }
+
+    /**
+     * POST /api/chemical-usage-logs
+     */
+    public function addChemical(StoreChemicalUsageLogRequest $request): JsonResponse
+    {
+        $this->authorize('create', ChemicalUsageLog::class);
+
+        $log = $this->chemicalUsageService->add(
             data: $request->validated(),
             user: $request->user(),
         );

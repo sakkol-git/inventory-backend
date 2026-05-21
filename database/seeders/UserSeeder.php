@@ -135,8 +135,6 @@ class UserSeeder extends Seeder
 
         $admin->syncRoles([$adminRole]);
 
-       
-
         resolve(PermissionRegistrar::class)->forgetCachedPermissions();
     }
 }

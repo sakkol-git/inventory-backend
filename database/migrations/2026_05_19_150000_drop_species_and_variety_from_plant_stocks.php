@@ -28,7 +28,7 @@ return new class extends Migration
             foreach ($constraints as $constraint) {
                 try {
                     DB::statement("ALTER TABLE plant_stocks DROP FOREIGN KEY `{$constraint->CONSTRAINT_NAME}`");
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     // Ignore if the foreign key was already removed or does not exist
                 }
             }
@@ -36,7 +36,7 @@ return new class extends Migration
             Schema::table('plant_stocks', function (Blueprint $table) use ($speciesExists, $varietyExists): void {
                 try {
                     $table->dropIndex('plant_stocks_sample_idx');
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     // index may not exist or be named differently; ignore
                 }
 
@@ -53,7 +53,7 @@ return new class extends Migration
         Schema::table('plant_stocks', function (Blueprint $table): void {
             try {
                 $table->index(['plant_sample_id', 'status'], 'plant_stocks_sample_idx');
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 // ignore if the index already exists
             }
         });
@@ -67,7 +67,7 @@ return new class extends Migration
         Schema::table('plant_stocks', function (Blueprint $table): void {
             try {
                 $table->dropIndex('plant_stocks_sample_idx');
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 // ignore if missing
             }
 

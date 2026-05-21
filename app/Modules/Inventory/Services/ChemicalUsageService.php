@@ -26,7 +26,7 @@ class ChemicalUsageService
      *
      * @throws StockCannotBeNegativeException
      */
-    public function create(array $data, User $user): ChemicalUsageLog
+    public function use(array $data, User $user): ChemicalUsageLog
     {
         $data['user_id'] = $user->id;
 
@@ -67,6 +67,50 @@ class ChemicalUsageService
 
             // Decrement chemical stock
             $chemical->decrement('quantity', $decrementQty);
+
+            $this->transactionService->log(
+                item: $chemical,
+                user: $user,
+                action: TransactionAction::CONSUMED,
+                quantity: $quantityUsed,
+            );
+
+            return $log;
+        });
+    }
+
+    public function add(array $data, User $user): ChemicalUsageLog
+    {
+        $data['user_id'] = $user->id;
+
+        return DB::transaction(function () use ($data, $user): ChemicalUsageLog {
+            $chemical = Chemical::query()
+                ->lockForUpdate()
+                ->findOrFail($data['chemical_id']);
+
+            if ($chemical->is_expired) {
+                throw new ChemicalExpiredException(
+                    $chemical->id,
+                    $chemical->expiry_date?->toDateString() ?? 'unknown'
+                );
+            }
+
+            $quantityUsed = $data['quantity_used'];
+            $decrementQty = (int) ceil($quantityUsed);
+
+            if ($decrementQty <= 0) {
+                throw new StockCannotBeNegativeException(
+                    'Chemical',
+                    $chemical->quantity,
+                    -$decrementQty,
+                    'Quantity used must be greater than zero.'
+                );
+            }
+
+            $log = ChemicalUsageLog::create($data);
+
+            // Increment chemical stock
+            $chemical->increment('quantity', $decrementQty);
 
             $this->transactionService->log(
                 item: $chemical,

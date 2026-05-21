@@ -17,7 +17,7 @@ class BorrowRecordPolicy
 
     public function view(User $user, BorrowRecord $record): bool
     {
-        return $user->id === $record->user_id 
+        return $user->id === $record->user_id
             || $this->canManage($user);
     }
 
@@ -28,7 +28,7 @@ class BorrowRecordPolicy
 
     public function approve(User $user, BorrowRecord $record): bool
     {
-        return ($this->canManage($user) 
+        return ($this->canManage($user)
                 && $record->status === BorrowStatus::PENDING)
                 || ($user->hasPermissionTo('borrows.approve', 'api')
                 && $record->status === BorrowStatus::PENDING);
@@ -36,7 +36,7 @@ class BorrowRecordPolicy
 
     public function reject(User $user, BorrowRecord $record): bool
     {
-        return ($this->canManage($user) 
+        return ($this->canManage($user)
                 && $record->status === BorrowStatus::PENDING)
                 || ($user->hasPermissionTo('borrows.reject', 'api')
                 && $record->status === BorrowStatus::PENDING);

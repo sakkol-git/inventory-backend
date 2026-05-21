@@ -37,7 +37,7 @@ Route::middleware('auth:api')->group(function () {
     // ─── Chemical Module ─────────────────────────────────────────────────────
     Route::apiResource('chemicals', ChemicalController::class);
     Route::apiResource('chemical-usage-logs', ChemicalUsageController::class)
-        ->only(['index', 'store', 'show'])
+        ->only(['index', 'useChemical', 'addChemical', 'show'])
         ->parameters(['chemical-usage-logs' => 'chemicalUsageLog']);
 
     // ─── Equipment Module ────────────────────────────────────────────────────
